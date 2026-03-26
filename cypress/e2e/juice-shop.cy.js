@@ -9,6 +9,7 @@ import { OrderSummaryPage } from '../pageObjects/orderSummaryPage';
 import { OrderCompletionPage } from '../pageObjects/orderCompletionPage';
 import { SavedAddressesPage } from '../pageObjects/savedAddressesPage';
 import { CreateAddressPage } from '../pageObjects/createAddressPage';
+import { SavedPaymentMethodsPage } from '../pageObjects/savedPaymentMethodsPage';
 
 describe('Juice-shop scenarios', () => {
   context('Without auto login', () => {
@@ -240,17 +241,29 @@ describe('Juice-shop scenarios', () => {
 			SelectAddressPage.addressTableEntries.should('contain', 'Giberta iela 13');
 		});
 
-    // Create scenario - Add payment option
-    // Click on Account
-    // Click on Orders & Payment
-    // Click on My payment options
-    // Create page object - SavedPaymentMethodsPage
-    // Click Add new card
-    // Fill in Name
-    // Fill in Card Number
-    // Set expiry month to 7
-    // Set expiry year to 2090
-    // Click Submit button
-    // Validate that the card shows up in the list
+		it('Add payment option', () => {
+			// Click on Account
+      HomePage.accountButton.click();
+			// Click on Orders & Payment
+      HomePage.ordersAndPaymentButton.click();
+			// Click on My payment options
+      HomePage.myPaymentOptionsButton.click();
+      // Create page object - SavedPaymentMethodsPage
+			// Click Add new card
+      SavedPaymentMethodsPage.addNewCardButton.click();
+      
+			// Fill in Name
+      SavedPaymentMethodsPage.nameField.type('Ralfs');
+			// Fill in Card Number
+      SavedPaymentMethodsPage.cardNumberField.type('1111222233334444');
+			// Set expiry month to 7
+      SavedPaymentMethodsPage.expiryMonthField.select('7');
+			// Set expiry year to 2090
+      SavedPaymentMethodsPage.expiryYearField.select('2090');
+			// Click Submit button
+      SavedPaymentMethodsPage.submitButton.click();
+      // Validate that the card shows up in the list
+      SavedPaymentMethodsPage.paymentTable.should('contain', '4444');
+    });
   });
 });
