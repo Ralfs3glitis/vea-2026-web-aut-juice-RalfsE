@@ -130,32 +130,48 @@ describe('Juice-shop scenarios', () => {
       HomePage.cardReviewText.should('contain.text', 'K33p5 y0ur ju1cy 5plu773r 70 y0ur53lf!');
     });
 
-    it.only('Add a review', () => {
-    // Click on search icon
-    HomePage.searchIcon.click();
-    // Search for Raspberry
-    HomePage.searchField.type('Raspberry{enter}');
-    // Select a product card - Raspberry Juice (1000ml)
-    HomePage.productNames.contains('Raspberry Juice (1000ml)').click();
-    // Type in review - "Tastes like metal"
-    const reviewText = "Tastes like metal"
-    HomePage.reviewInputField.click()
-    HomePage.reviewInputField.type(reviewText)
-    // Click Submit
-    HomePage.reviewPostButton.click();
-    // Click expand reviews button/icon (wait for reviews to appear)
-    HomePage.reviewHeader.click();
-    cy.wait(100);
-    // Validate review -  "Tastes like metal"
-    HomePage.cardReviewText.should('contain.text', reviewText);
+    it('Add a review', () => {
+      // Click on search icon
+      HomePage.searchIcon.click();
+      // Search for Raspberry
+      HomePage.searchField.type('Raspberry{enter}');
+      // Select a product card - Raspberry Juice (1000ml)
+      HomePage.productNames.contains('Raspberry Juice (1000ml)').click();
+      // Type in review - "Tastes like metal"
+      const reviewText = "Tastes like metal"
+      HomePage.reviewInputField.click()
+      HomePage.reviewInputField.type(reviewText)
+      // Click Submit
+      HomePage.reviewPostButton.click();
+      // Click expand reviews button/icon (wait for reviews to appear)
+      HomePage.reviewHeader.click();
+      cy.wait(100);
+      // Validate review -  "Tastes like metal"
+      HomePage.cardReviewText.should('contain.text', reviewText);
+    });
+
+
+    it.only('Validate product card amount', () => {
+      function isProductCount(amount){
+        HomePage.productCards.should("have.length", amount)
+      }
+      function changeProductCount(amount){
+        HomePage.changePageSizeSelect.click()
+        HomePage.pageSizeOptions.contains(amount.toString()).click();
+      }
+      
+      // Validate that the default amount of cards is 12
+      isProductCount(12)
+      // Change items per page (at the bottom of page) to 24
+      changeProductCount(24)
+      // Validate that the amount of cards is 24
+      isProductCount(24)
+      // Change items per page (at the bottom of page) to 36
+      changeProductCount(36)
+      // Validate that the amount of cards is 35
+      isProductCount(35)
     });
     
-    // Create scenario - Validate product card amount
-    // Validate that the default amount of cards is 12
-    // Change items per page (at the bottom of page) to 24
-    // Validate that the amount of cards is 24
-    // Change items per page (at the bottom of page) to 36
-    // Validate that the amount of cards is 35
 
     // Create scenario - Buy Girlie T-shirt
     // Click on search icon

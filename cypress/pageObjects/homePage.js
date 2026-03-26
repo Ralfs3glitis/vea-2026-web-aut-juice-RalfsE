@@ -34,8 +34,12 @@ export class HomePage extends BasePage {
     return cy.get('#searchQuery input');
   }
 
+  static get productCards(){
+    return cy.get('[class="mat-grid-tile ng-star-inserted"]')
+  }
+
   static get productNames() {
-    return cy.get('[class="mat-grid-tile ng-star-inserted"]').find('[class="info-box"]');
+    return this.productCards.find('[class="info-box"]');
   }
   static get productDescription() {
     return cy.get('mat-dialog-content .details-row');
@@ -54,6 +58,12 @@ export class HomePage extends BasePage {
   }
   static get reviewPostButton(){
     return cy.get('#submitButton')
+  }
+  static get changePageSizeSelect(){
+    return cy.get('.mat-mdc-paginator-page-size-select')
+  }
+  static get pageSizeOptions(){
+    return cy.get('mat-option');
   }
 
 }
