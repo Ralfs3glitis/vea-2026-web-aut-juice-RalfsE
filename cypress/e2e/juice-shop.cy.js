@@ -116,7 +116,7 @@ describe('Juice-shop scenarios', () => {
       HomePage.productDescription.should('contain.text', 'Sweet & tasty!');
     });
 
-    it.only('Read a review', () => {
+    it('Read a review', () => {
       // Click on search icon
       HomePage.searchIcon.click();
       // Search for King
@@ -125,27 +125,31 @@ describe('Juice-shop scenarios', () => {
       HomePage.productNames.contains('OWASP Juice Shop "King of the Hill" Facemask').click();
       // Click expand reviews button/icon (wait for reviews to appear)
       HomePage.reviewHeader.click();
-      cy.wait(1000);
+      cy.wait(100);
        // Validate review - K33p5 y0ur ju1cy 5plu773r 70 y0ur53lf!
       HomePage.cardReviewText.should('contain.text', 'K33p5 y0ur ju1cy 5plu773r 70 y0ur53lf!');
     });
 
-    // Create scenario - Read a review
+    it.only('Add a review', () => {
     // Click on search icon
-    // Search for King
-    // Select a product card - OWASP Juice Shop "King of the Hill" Facemask
-    // Click expand reviews button/icon (wait for reviews to appear)
-    // Validate review - K33p5 y0ur ju1cy 5plu773r 70 y0ur53lf!
-
-    // Create scenario - Add a review
-    // Click on search icon
+    HomePage.searchIcon.click();
     // Search for Raspberry
+    HomePage.searchField.type('Raspberry{enter}');
     // Select a product card - Raspberry Juice (1000ml)
+    HomePage.productNames.contains('Raspberry Juice (1000ml)').click();
     // Type in review - "Tastes like metal"
+    const reviewText = "Tastes like metal"
+    HomePage.reviewInputField.click()
+    HomePage.reviewInputField.type(reviewText)
     // Click Submit
+    HomePage.reviewPostButton.click();
     // Click expand reviews button/icon (wait for reviews to appear)
+    HomePage.reviewHeader.click();
+    cy.wait(100);
     // Validate review -  "Tastes like metal"
-
+    HomePage.cardReviewText.should('contain.text', reviewText);
+    });
+    
     // Create scenario - Validate product card amount
     // Validate that the default amount of cards is 12
     // Change items per page (at the bottom of page) to 24
