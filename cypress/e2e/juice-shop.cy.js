@@ -7,6 +7,8 @@ import { DeliveryMethodPage } from '../pageObjects/deliveryMethodPage';
 import { PaymentOptionsPage } from '../pageObjects/paymentOptionsPage';
 import { OrderSummaryPage } from '../pageObjects/orderSummaryPage';
 import { OrderCompletionPage } from '../pageObjects/orderCompletionPage';
+import { SavedAddressesPage } from '../pageObjects/savedAddressesPage';
+import { CreateAddressPage } from '../pageObjects/createAddressPage';
 
 describe('Juice-shop scenarios', () => {
   context('Without auto login', () => {
@@ -178,7 +180,7 @@ describe('Juice-shop scenarios', () => {
       isProductCount(36)
     });
     
-    it.only('Buy Girlie T-shirt', () => {
+    it('Buy Girlie T-shirt', () => {
       // Click on search icon
       HomePage.searchIcon.click();
       // Search for Girlie
@@ -213,17 +215,30 @@ describe('Juice-shop scenarios', () => {
       OrderCompletionPage.confirmationText.contains("Thank you for your purchase!")
     });
 
-
-    // Create scenario - Add address
-    // Click on Account
-    // Click on Orders & Payment
-    // Click on My saved addresses
-    // Create page object - SavedAddressesPage
-    // Click on Add New Address
-    // Create page object - CreateAddressPage
-    // Fill in the necessary information
-    // Click Submit button
-    // Validate that previously added address is visible
+		it('Add address', () => {
+			 // Click on Account
+			HomePage.accountButton.click();
+			// Click on Orders & Payment
+			HomePage.ordersAndPaymentButton.click();
+			cy.wait(100)
+			// Click on My saved addresses
+			HomePage.mySavedAddressesButton.click();
+			// Create page object - SavedAddressesPage
+			// Click on Add New Address
+			SavedAddressesPage.addNewAddressButton.click();
+			// Create page object - CreateAddressPage
+			// Fill in the necessary information
+			CreateAddressPage.countryField.type('Latvija');
+      CreateAddressPage.nameField.type('Ralfs');
+      CreateAddressPage.numberField.type('12345678');
+      CreateAddressPage.zipField.type('LV-1188');
+      CreateAddressPage.addressField.type('Giberta iela 13');
+      CreateAddressPage.cityField.type('Ventspils');
+			// Click Submit button
+			CreateAddressPage.submitButton.click();
+			// Validate that previously added address is visible
+			SelectAddressPage.addressTableEntries.should('contain', 'Giberta iela 13');
+		});
 
     // Create scenario - Add payment option
     // Click on Account
