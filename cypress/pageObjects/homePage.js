@@ -65,5 +65,10 @@ export class HomePage extends BasePage {
   static get pageSizeOptions(){
     return cy.get('mat-option');
   }
-
+  static get addToBasketButton(){
+    return cy.get('button[aria-label="Add to Basket"]')
+  }
+  static get yourBasketButton(){
+    return cy.get('button[aria-label="Show the shopping cart"]')
+  }
 }
